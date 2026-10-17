@@ -51,6 +51,26 @@ function mostrarResumen() {
     (valorAnt, valorAct) => valorAnt + valorAct,
     0,
   );
-  document.getElementById("resultadoResumen").innerHTML =
-    "<p><strong>Total: " + totalGastos + " €</strong></p>";
+
+  let resultadoHTML = "";
+
+  listaConceptos.forEach(function (item) {
+    resultadoHTML += "<p>" + item.nombre + " - " + item.pagos + " pago(s)</p>";
+  });
+
+  resultadoHTML +=
+    "<hr><p><strong>Gasto final: " + dineroTotal + " €</strong></p>";
+
+  let gastoMedio = 0;
+
+if (totalPagosRealizados > 0) {
+     gastoMedio = dineroTotal / totalPagosRealizados;
+  
+}
+
+
+resultadoHTML += "<p><strong>Gasto medio por pago: " + gastoMedio + " €</strong></p>";
+ 
+
+  document.getElementById("resultadoResumen").innerHTML = resultadoHTML;
 }
