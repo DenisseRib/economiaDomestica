@@ -39,6 +39,13 @@ function mostrarResumen() {
       });
     }
   }
+  listaConceptos.sort(function (a, b) {
+    if (b.pagos !== a.pagos) {
+      return b.pagos - a.pagos;
+    } else {
+      return a.nombre.localeCompare(b.nombre);
+    }
+  });
 
   let totalGastos = seleccionados.reduce(
     (valorAnt, valorAct) => valorAnt + valorAct,
