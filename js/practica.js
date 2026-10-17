@@ -21,18 +21,24 @@ let totalPagosRealizados = 0;
 let contadorPagos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 function sumarGastos(i) {
-    contadorPagos[i]++;
-    dineroTotal += arrayGastos[i];
-    totalPagosRealizados++;
-
+  contadorPagos[i]++;
+  dineroTotal += arrayGastos[i];
+  totalPagosRealizados++;
 
   seleccionados.push(arrayGastos[i]);
 }
 
 function mostrarResumen() {
+  let listaConceptos = [];
 
-
-
+  for (let i = 0; i < arrayNombreGastos.length; i++) {
+    if (contadorPagos[i] > 0) {
+      listaConceptos.push({
+        nombre: arrayNombreGastos[i],
+        pagos: contadorPagos[i],
+      });
+    }
+  }
 
   let totalGastos = seleccionados.reduce(
     (valorAnt, valorAct) => valorAnt + valorAct,
