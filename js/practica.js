@@ -19,8 +19,13 @@ let dineroTotal = 0;
 let totalPagosRealizados = 0;
 
 let contadorPagos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let resumenMostrado = false;
 
 function sumarGastos(i) {
+    if (resumenMostrado) {
+        document.getElementById("resultadoResumen").innerHTML = "";
+        resumenMostrado = false;
+    }
   contadorPagos[i]++;
   dineroTotal += arrayGastos[i];
   totalPagosRealizados++;
@@ -75,4 +80,9 @@ function mostrarResumen() {
     "<p><strong>Gasto medio por pago: " + gastoMedio + " €</strong></p>";
 
   document.getElementById("resultadoResumen").innerHTML = resultadoHTML;
+  resumenMostrado = true;
+  
+  contadorPagos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dineroTotal = 0;
+    totalPagosRealizados = 0;
 }
