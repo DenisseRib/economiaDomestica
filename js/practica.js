@@ -14,11 +14,26 @@ let arrayGastos = [50, 30, 40, 35, 700, 150, 60, 25, 15, 20];
 
 let seleccionados = [];
 
+let dineroTotal = 0;
+
+let totalPagosRealizados = 0;
+
+let contadorPagos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
 function sumarGastos(i) {
+    contadorPagos[i]++;
+    dineroTotal += arrayGastos[i];
+    totalPagosRealizados++;
+
+
   seleccionados.push(arrayGastos[i]);
 }
 
 function mostrarResumen() {
+
+
+
+
   let totalGastos = seleccionados.reduce(
     (valorAnt, valorAct) => valorAnt + valorAct,
     0,
