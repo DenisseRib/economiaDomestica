@@ -30,6 +30,10 @@ function sumarGastos(i) {
 
 function mostrarResumen() {
   let listaConceptos = [];
+  if (totalPagosRealizados === 0) {
+    document.getElementById("resultadoResumen").innerHTML = "<p>No se ha registrado ningún pago</p>";
+    return; 
+}
 
   for (let i = 0; i < arrayNombreGastos.length; i++) {
     if (contadorPagos[i] > 0) {
@@ -63,14 +67,12 @@ function mostrarResumen() {
 
   let gastoMedio = 0;
 
-if (totalPagosRealizados > 0) {
-     gastoMedio = dineroTotal / totalPagosRealizados;
-  
-}
+  if (totalPagosRealizados > 0) {
+    gastoMedio = dineroTotal / totalPagosRealizados;
+  }
 
-
-resultadoHTML += "<p><strong>Gasto medio por pago: " + gastoMedio + " €</strong></p>";
- 
+  resultadoHTML +=
+    "<p><strong>Gasto medio por pago: " + gastoMedio + " €</strong></p>";
 
   document.getElementById("resultadoResumen").innerHTML = resultadoHTML;
 }
