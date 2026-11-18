@@ -10,57 +10,80 @@
     <h1>Registro de Gastos de Vivienda</h1>
     <p>Haz clic en cualquier concepto para registrar un pago:</p>
 
+    <section class="seccion-tramite">
+        <h2>Iniciar trámite</h2>
+        <div class="campos-tramite">
+            <label for="mesTramite">Mes</label>
+            <input id="mesTramite" type="number" min="1" max="12" placeholder="MM">
+            <label for="anioTramite">Año</label>
+            <input id="anioTramite" type="number" min="1000" max="9999" placeholder="AAAA">
+            <button type="button" id="botonIniciarTramite">Iniciar trámite</button>
+        </div>
+        <p id="errorTramite" class="mensaje-error" role="alert"></p>
+    </section>
+
 
     <div class="grid-conceptos" >
         <div class="tarjeta">
             <img src="./img/luz.webp" alt="Luz" onclick="sumarGastos(0)" >
             <h3>Electricidad</h3>
-            <p>50 €</p>
+           <label for="luz">Cantidad:</label>
+            <input type="number" id="luz" min="0" max = "1000" step="0.01" placeholder="€">
+           
         </div>
         <div class="tarjeta">
             <img src="./img/agua.webp" alt="Agua" onclick="sumarGastos(1)" >
             <h3>Agua</h3>
-            <p>30 €</p>
+            <label for="agua">Cantidad:</label>
+            <input type="number" id="agua" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/gas.webp" alt="Gas" onclick="sumarGastos(2)" >
             <h3>Gas</h3>
-            <p>40 €</p>
+            <label for="gas">Cantidad:</label>
+            <input type="number" id="gas" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/internet.jpg" alt="Internet" onclick="sumarGastos(3)" >
             <h3>Internet</h3>
-            <p>35 €</p>
+            <label for="internet">Cantidad:</label>
+            <input type="number" id="internet" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/alquiler.jpg" alt="Alquiler" onclick="sumarGastos(4)" >
             <h3>Alquiler</h3>
-            <p>700 €</p>
+            <label for="alquiler">Cantidad:</label>
+            <input type="number" id="alquiler" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/supermercado.webp" alt="Supermercado" onclick="sumarGastos(5)" >
             <h3>Supermercado</h3>
-            <p>150 €</p>
+            <label for="supermercado">Cantidad:</label>
+            <input type="number" id="supermercado" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/comunidad.webp" alt="Comunidad"  onclick="sumarGastos(6)" >
             <h3>Comunidad</h3>
-            <p>60 €</p>
+            <label for="comunidad">Cantidad:</label>
+            <input type="number" id="comunidad" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/seguro.webp" alt="Seguro" onclick="sumarGastos(7)" >
             <h3>Seguro Hogar</h3>
-            <p>25 €</p>
+            <label for="seguro">Cantidad:</label>
+            <input type="number" id="seguro" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/ocio.webp" alt="Ocio" onclick="sumarGastos(8)" >
             <h3>Ocio</h3>
-            <p>15 €</p>
+            <label for="ocio">Cantidad:</label>
+            <input type="number" id="ocio" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
         <div class="tarjeta">
             <img src="./img/basura.webp" alt="Basura"onclick="sumarGastos(9)" >
             <h3>Tasa Basura</h3>
-            <p>20 €</p>
+            <label for="basura">Cantidad:</label>
+            <input type="number" id="basura" min="0" max = "1000" step="0.01" placeholder="€">
         </div>
     </div>
 

@@ -1,0 +1,85 @@
+{
+  "conceptos": [
+    {
+      "id": "1",
+      "nombre": "Luz",
+      "img": "./img/luz.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS",
+      "importe": 50
+    },
+    {
+      "id": "2",
+      "nombre": "Agua",
+      "img": "./img/agua.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS",
+      "importe": 30
+    },
+    {
+      "id": "3",
+      "nombre": "Gas",
+      "img": "./img/gas.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS",
+      "importe": 40
+    },
+    {
+      "id": "4",
+      "nombre": "Internet",
+      "img": "./img/internet.jpg",
+      "imprescindible": true,
+      "categoria": "S_BAS",
+      "importe": 35
+    },
+    {
+      "id": "5",
+      "nombre": "Alquiler",
+      "img": "./img/alquiler.jpg",
+      "imprescindible": true,
+      "categoria": "VIV",
+      "importe": 700
+    },
+    {
+      "id": "6",
+      "nombre": "Supermercado",
+      "img": "./img/supermercado.webp",
+      "imprescindible": true,
+      "categoria": "ALIM",
+      "importe": 150
+    },
+    {
+      "id": "7",
+      "nombre": "Comunidad",
+      "img": "./img/comunidad.webp",
+      "imprescindible": true,
+      "categoria": "VIV",
+      "importe": 60
+    },
+    {
+      "id": "8",
+      "nombre": "Seguro Hogar",
+      "img": "./img/seguro.webp",
+      "imprescindible": true,
+      "categoria": "VIV",
+      "importe": 25
+    },
+    {
+      "id": "9",
+      "nombre": "Ocio",
+      "img": "./img/ocio.webp",
+      "imprescindible": false,
+      "categoria": "OC",
+      "importe": 15
+    },
+    {
+      "id": "10",
+      "nombre": "Tasa Basura",
+      "img": "./img/basura.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS",
+      "importe": 20
+    }
+  ],
+  "registros": []
+}
