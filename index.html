@@ -3,96 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Economía Doméstica</title>
     <link rel="stylesheet" href="./css/estilos.css">
-    <script src="./js/practica.js"> </script>
+    <script src="./js/practica.js" defer></script>
+</head>
 <body>
-    <h1>Registro de Gastos de Vivienda</h1>
-    <p>Haz clic en cualquier concepto para registrar un pago:</p>
+    <main class="contenido-principal">
+        <header>
+            <h1>Registro de Gastos de Vivienda</h1>
 
-    <section class="seccion-tramite">
-        <h2>Iniciar trámite</h2>
-        <div class="campos-tramite">
-            <label for="mesTramite">Mes</label>
-            <input id="mesTramite" type="number" min="1" max="12" placeholder="MM">
-            <label for="anioTramite">Año</label>
-            <input id="anioTramite" type="number" min="1000" max="9999" placeholder="AAAA">
-            <button type="button" id="botonIniciarTramite">Iniciar trámite</button>
-        </div>
-        <p id="errorTramite" class="mensaje-error" role="alert"></p>
-    </section>
+<p id="datoTramite">Introduzca el mes y el año del trámite.</p>
+            <p>Indica el importe y pulsa sobre la imagen para registrar el pago.</p>
+        </header>
 
+        <section id="gridConceptos" class="grid-conceptos" aria-label="Conceptos de gasto"></section>
 
-    <div class="grid-conceptos" >
-        <div class="tarjeta">
-            <img src="./img/luz.webp" alt="Luz" onclick="sumarGastos(0)" >
-            <h3>Electricidad</h3>
-           <label for="luz">Cantidad:</label>
-            <input type="number" id="luz" min="0" max = "1000" step="0.01" placeholder="€">
-           
-        </div>
-        <div class="tarjeta">
-            <img src="./img/agua.webp" alt="Agua" onclick="sumarGastos(1)" >
-            <h3>Agua</h3>
-            <label for="agua">Cantidad:</label>
-            <input type="number" id="agua" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/gas.webp" alt="Gas" onclick="sumarGastos(2)" >
-            <h3>Gas</h3>
-            <label for="gas">Cantidad:</label>
-            <input type="number" id="gas" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/internet.jpg" alt="Internet" onclick="sumarGastos(3)" >
-            <h3>Internet</h3>
-            <label for="internet">Cantidad:</label>
-            <input type="number" id="internet" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/alquiler.jpg" alt="Alquiler" onclick="sumarGastos(4)" >
-            <h3>Alquiler</h3>
-            <label for="alquiler">Cantidad:</label>
-            <input type="number" id="alquiler" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/supermercado.webp" alt="Supermercado" onclick="sumarGastos(5)" >
-            <h3>Supermercado</h3>
-            <label for="supermercado">Cantidad:</label>
-            <input type="number" id="supermercado" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/comunidad.webp" alt="Comunidad"  onclick="sumarGastos(6)" >
-            <h3>Comunidad</h3>
-            <label for="comunidad">Cantidad:</label>
-            <input type="number" id="comunidad" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/seguro.webp" alt="Seguro" onclick="sumarGastos(7)" >
-            <h3>Seguro Hogar</h3>
-            <label for="seguro">Cantidad:</label>
-            <input type="number" id="seguro" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/ocio.webp" alt="Ocio" onclick="sumarGastos(8)" >
-            <h3>Ocio</h3>
-            <label for="ocio">Cantidad:</label>
-            <input type="number" id="ocio" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-        <div class="tarjeta">
-            <img src="./img/basura.webp" alt="Basura"onclick="sumarGastos(9)" >
-            <h3>Tasa Basura</h3>
-            <label for="basura">Cantidad:</label>
-            <input type="number" id="basura" min="0" max = "1000" step="0.01" placeholder="€">
-        </div>
-    </div>
+        <section class="seccion-resumen">
+            <button id="btnFinalizar" type="button">Finalizar trámite y ver resumen</button>
+            <h2>Resumen de Gastos</h2>
+            <div id="resultadoResumen">
+                <p>Haz clic en el botón para ver el resumen detallado de los pagos realizados.</p>
+            </div>
+        </section>
+    </main>
 
-    <div class="seccion-resumen">
-        <button id="btnFinalizar" onclick="mostrarResumen()">Finalizar trámite y ver resumen</button>
-        <h2>Resumen de Gastos</h2>
-        <div id="resultadoResumen">
-            <p>Haz clic en el botón para ver el resumen detallado de los pagos realizados.</p>
+    <aside id="panelHistorial" class="panel-historial" aria-label="Historial de pagos">
+        <h2>Historial de pagos</h2>
+        <div id="listaPagos" class="lista-pagos">
+            <p>Los pagos registrados aparecerán aquí.</p>
         </div>
-    </div>
+    </aside>
+
+    <dialog id="ventanaDetalle" class="ventana-detalle">
+        <h2>Detalle de conceptos pagados</h2>
+        <div id="detalleConceptos"></div>
+        <button id="btnCerrarDetalle" type="button">Cerrar</button>
+    </dialog>
 </body>
 </html>

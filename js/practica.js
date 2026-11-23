@@ -1,119 +1,42 @@
-let arrayNombreGastos = [
-  "Electricidad",
-  "Agua",
-  "Gas",
-  "Internet",
-  "Alquiler",
-  "Supermercado",
-  "Comunidad",
-  "Seguro Hogar",
-  "Ocio",
-  "Tasa Basura",
-];
-let arrayGastos = [50, 30, 40, 35, 700, 150, 60, 25, 15, 20];
+let conceptos = [];
+let tramite = null;
+let pagos = [];
+let tramitesGuardados = [];
 
-let seleccionados = [];
+const categorias = {
+  CULT: "Cultura",
+  ALI: "Alimentación",
+  DEP: "Deportes",
+  OC: "Ocio",
+  S_BAS: "Servicios Básicos",
+};
 
-let dineroTotal = 0;
+function iniciarTramite() {
+  const mesTexto = prompt("Indica el mes del trámite (1-12):");
+  const mes = Number(mesTexto);
+  const anioTexto = prompt("Indica el año del trámite:");
+  const anio = Number(anioTexto);
 
-let totalPagosRealizados = 0;
-
-let contadorPagos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let resumenMostrado = false;
-
-let tramiteIniciado = false;
-let botonIniciarTramite = document.getElementById("botonIniciarTramite");
-
-
-botonIniciarTramite.addEventListener("click", function () {
-  let mes = document.getElementById("mesTramite").value;
-  let anio = document.getElementById("anioTramite").value;
-  if (mes && anio) {
-    tramiteIniciado = true;
-    fechaTramite = mes + "/" + anio;
-    document.getElementById("errorTramite").textContent = "";
-  } else {
-    document.getElementById("errorTramite").textContent =
-      "Por favor, introduce un mes y un año válidos.";
-  }
-});
-
-
-
-function sumarGastos(i) {
-  if (botonIniciarTramite.disabled === false) {
-    document.getElementById("errorTramite").textContent =
-      "Primero inicia un trámite indicando el mes y el año.";
+  if (
+    !Number.isInteger(mes) ||
+    mes < 1 ||
+    mes > 12 ||
+    !Number.isInteger(anio) ||
+    anio < 1
+  ) {
+    alert("Debe indicar un mes y un año válidos.");
+    iniciarTramite();
     return;
   }
-    if (botonIniciarTramite.disabled === true && !resumenMostrado) {
-        document.getElementById("resultadoResumen").innerHTML = "";
-        resumenMostrado = false;
-    }
-  contadorPagos[i]++;
-  dineroTotal += arrayGastos[i];
-  totalPagosRealizados++;
 
-  seleccionados.push(arrayGastos[i]);
-}
+  tramite = { mes, anio, pagos: [] };
+  pagos = [];
 
-function mostrarResumen() {
-  let listaConceptos = [];
-  if (totalPagosRealizados === 0 && botonIniciarTramite.disabled === false) {
-    document.getElementById("resultadoResumen").innerHTML = "<p>No se ha registrado ningún pago</p>";
-    return; 
-}
-if (totalPagosRealizados >= 0 && botonIniciarTramite.disabled === true) {
-  
-
-
-
-}
-
-  for (let i = 0; i < arrayNombreGastos.length; i++) {
-    if (contadorPagos[i] > 0) {
-      listaConceptos.push({
-        nombre: arrayNombreGastos[i],
-        pagos: contadorPagos[i],
-      });
-    }
-  }
-  listaConceptos.sort(function (a, b) {
-    if (b.pagos !== a.pagos) {
-      return b.pagos - a.pagos;
-    } else {
-      return a.nombre.localeCompare(b.nombre);
-    }
-  });
-
-  let totalGastos = seleccionados.reduce(
-    (valorAnt, valorAct) => valorAnt + valorAct,
-    0,
-  );
-
-  let resultadoHTML = "<p><strong>Trámite " + fechaTramite + "</strong></p>";
-
-  listaConceptos.forEach(function (item) {
-    resultadoHTML += "<p>" + item.nombre + " - " + item.pagos + " pago(s)</p>";
-  });
-
-  resultadoHTML +=
-    "<hr><p><strong>Gasto final: " + dineroTotal + " €</strong></p>";
-
-  let gastoMedio = 0;
-
-  if (totalPagosRealizados > 0) {
-    gastoMedio = dineroTotal / totalPagosRealizados;
+  let mesFormateado = mes;
+  if (mes < 10) {
+    mesFormateado = "0" + mes;
   }
 
-  resultadoHTML +=
-    "<p><strong>Gasto medio por pago: " + gastoMedio + " €</strong></p>";
-
-  document.getElementById("resultadoResumen").innerHTML = resultadoHTML;
-  resumenMostrado = true;
-  
-  contadorPagos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    dineroTotal = 0;
-    totalPagosRealizados = 0;
-    terminarTramite();
+  document.getElementById("datoTramite").textContent =
+    "Trámite: " + mesFormateado + "/" + anio;
 }
