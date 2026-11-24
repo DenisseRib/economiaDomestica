@@ -3,6 +3,8 @@ let conceptos = [];
 let tramite = null;
 let pagos = [];
 let tramitesGuardados = [];
+let tramiteFinalizado = false;
+let temporizadorLimpieza = null;
 
 const categorias = {
   CULT: "Cultura",
@@ -17,6 +19,11 @@ function iniciarTramite(evento) {
   const mesInput = document.getElementById("mesTramite");
   const anioInput = document.getElementById("anioTramite");
   const mensajeError = document.getElementById("errorTramite");
+  if (tramiteFinalizado) {
+    mensajeError.textContent = "Espera a que termine la limpieza del trámite finalizado.";
+    return;
+  }
+
   const mes = Number(mesInput.value);
   const anio = Number(anioInput.value);
 
@@ -34,6 +41,7 @@ function iniciarTramite(evento) {
 
   pagos = [];
   tramite = { mes, anio, pagos };
+  tramiteFinalizado = false;
   mensajeError.textContent = "";
 
   const mesFormateado = String(mes).padStart(2, "0");
@@ -119,6 +127,11 @@ function registrarPago(conceptoId, imagen) {
   const importeInput = imagen.closest(".tarjeta").querySelector(".importe-pago");
   const mensaje = document.getElementById("mensajePago");
 
+  if (tramiteFinalizado) {
+    mensaje.textContent = "El trámite ya ha finalizado.";
+    return;
+  }
+
   if (!tramite) {
     mensaje.textContent = "Primero debes iniciar un trámite indicando el mes y el año.";
     return;
@@ -168,7 +181,11 @@ function finalizarTramite() {
     resultado.textContent = "Inicia un trámite antes de consultar el resumen.";
     return;
   }
+  if (tramiteFinalizado) {
+    return;
+  }
 
+  tramiteFinalizado = true;
   const fechaFinalizacion = new Date();
   const lineaFecha = document.createElement("p");
   lineaFecha.textContent =
@@ -200,6 +217,63 @@ function finalizarTramite() {
   });
 
   mostrarDetalleConceptos();
+
+  temporizadorLimpieza = setTimeout(() => {
+    const tramiteGuardado = {
+      mes: tramite.mes,
+      anio: tramite.anio,
+      fechaFinalizacion: fechaFinalizacion.toISOString(),
+      pagos: pagos.map((pago) => ({ ...pago })),
+    };
+    tramitesGuardados.push(tramiteGuardado);
+    guardarTramite(tramiteGuardado);
+    limpiarTramite();
+  }, 10000);
+}
+
+async function guardarTramite(tramiteGuardado) {
+  try {
+    const respuesta = await fetch(`${API_URL}/registros`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(tramiteGuardado),
+    });
+    if (!respuesta.ok) {
+      throw new Error(`Error al guardar el trámite: ${respuesta.status}`);
+    }
+  } catch (error) {
+    console.error("No se pudo guardar el trámite en el servidor.", error);
+    alert("No se pudo guardar el trámite en el servidor.");
+  }
+}
+
+function limpiarTramite() {
+  document.getElementById("listaPagos").replaceChildren(
+    crearMensajeHistorialVacio(),
+  );
+  document.getElementById("resultadoResumen").replaceChildren();
+  document.getElementById("detalleConceptos").replaceChildren();
+  document.getElementById("ventanaDetalle").close();
+  document.getElementById("mensajePago").textContent = "";
+  document.querySelectorAll(".importe-pago").forEach((input) => {
+    input.value = "";
+  });
+  document.getElementById("datoTramite").textContent =
+    "Introduce el mes y el año para iniciar el trámite.";
+  document.getElementById("mesTramite").value = "";
+  document.getElementById("anioTramite").value = "";
+
+  pagos = [];
+  tramite = null;
+  tramiteFinalizado = false;
+  temporizadorLimpieza = null;
+}
+
+function crearMensajeHistorialVacio() {
+  const mensaje = document.createElement("p");
+  mensaje.className = "mensaje-historial-vacio";
+  mensaje.textContent = "Los pagos registrados aparecerán aquí.";
+  return mensaje;
 }
 
 function mostrarDetalleConceptos() {
