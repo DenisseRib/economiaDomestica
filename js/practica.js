@@ -65,5 +65,31 @@ function iniciarTramite() {
   document.getElementById("datoTramite").textContent = "Trámite: " + mesFormateado + "/" + anio;
   document.getElementById("btnFinalizar").disabled = false;
 }
+function agregarPago(conceptoId) {
+  const concepto = conceptos.find((c) => c.id === conceptoId);
+  if (!concepto) {
+    alert("Concepto no encontrado.");
+    return;
+  }
+  const importeInput = document.getElementById("importe" + conceptoId);
+  const importe = Number(importeInput.value);
+  if (isNaN(importe) || importe <= 0) {
+    alert("Debe indicar un importe válido.");
+    return;
+  }
+  pagos.push({ concepto, importe });
+  pintarPagos(concepto, importe);
+}
+function pintarPagos(concepto, importe) {
+  const listaPagos = document.getElementById("listaPagos");
+  const linea = document.createElement("lista-pagos");
+  linea.dataset.concepto = concepto.nombre;
+  linea.textContent = concepto.nombre + ": " + importe.toFixed(2) + " €";
+  listaPagos.appendChild(linea);
+  listaPagos.scrollTop = listaPagos.scrollHeight;
+  listaPagos.querySelectorAll(".linea-pago").forEach((item) => {
+    item.classList = "lineaPagos";
+  });
+}
 
 window.onload = iniciar;
