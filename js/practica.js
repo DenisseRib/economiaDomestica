@@ -151,10 +151,7 @@ function agregarAlHistorial(pago) {
 
   const lineasAnteriores = listaPagos.querySelectorAll(".linea-pago");
   lineasAnteriores.forEach((lineaAnterior) => {
-    lineaAnterior.classList.toggle(
-      "linea-pago--resaltada",
-      String(lineaAnterior.dataset.conceptoId) === String(pago.conceptoId),
-    );
+    lineaAnterior.classList.remove("linea-pago--resaltada");
   });
   linea.classList.add("linea-pago--resaltada");
 
