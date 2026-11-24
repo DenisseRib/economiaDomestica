@@ -175,10 +175,6 @@ function finalizarTramite() {
     `Trámite finalizado: ${fechaFinalizacion.toLocaleString("es-ES")}`;
   resultado.replaceChildren(lineaFecha);
 
-  if (pagos.length === 0) {
-    return;
-  }
-
   const resumenPorConcepto = new Map();
   pagos.forEach((pago) => {
     const datosConcepto = resumenPorConcepto.get(pago.conceptoId) || {
@@ -202,11 +198,39 @@ function finalizarTramite() {
       `importe total ${datosConcepto.importeTotal.toFixed(2)} €.`;
     resultado.appendChild(lineaConcepto);
   });
+
+  mostrarDetalleConceptos();
+}
+
+function mostrarDetalleConceptos() {
+  const detalle = document.getElementById("detalleConceptos");
+  const idsConceptosPagados = new Set(pagos.map((pago) => String(pago.conceptoId)));
+  detalle.replaceChildren();
+
+  conceptos.forEach((concepto) => {
+    if (!idsConceptosPagados.has(String(concepto.id))) {
+      return;
+    }
+
+    const linea = document.createElement("p");
+    const tipoGasto = concepto.imprescindible ? "imprescindible" : "prescindible";
+    linea.textContent =
+      `${concepto.nombre} es un gasto ${tipoGasto} de categoría ${categorias[concepto.categoria]}.`;
+    detalle.appendChild(linea);
+  });
+
+  document.getElementById("ventanaDetalle").showModal();
 }
 
 document
   .getElementById("formTramite")
   .addEventListener("submit", iniciarTramite);
+
+document
+  .getElementById("btnCerrarDetalle")
+  .addEventListener("click", () => {
+    document.getElementById("ventanaDetalle").close();
+  });
 
 document
   .getElementById("btnFinalizar")
