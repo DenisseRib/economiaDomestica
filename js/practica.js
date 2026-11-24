@@ -170,22 +170,12 @@ function finalizarTramite() {
   }
 
   const fechaFinalizacion = new Date();
-  const fechaTexto = new Intl.DateTimeFormat("es-ES", {
-    dateStyle: "short",
-    timeStyle: "medium",
-  }).format(fechaFinalizacion);
   const lineaFecha = document.createElement("p");
-  lineaFecha.className = "fecha-resumen";
-  lineaFecha.textContent = `Trámite finalizado: ${fechaTexto}`;
-
-  const resumen = document.createDocumentFragment();
-  resumen.appendChild(lineaFecha);
+  lineaFecha.textContent =
+    `Trámite finalizado: ${fechaFinalizacion.toLocaleString("es-ES")}`;
+  resultado.replaceChildren(lineaFecha);
 
   if (pagos.length === 0) {
-    const sinPagos = document.createElement("p");
-    sinPagos.textContent = "No se registraron pagos en este trámite.";
-    resumen.appendChild(sinPagos);
-    resultado.replaceChildren(resumen);
     return;
   }
 
@@ -201,10 +191,6 @@ function finalizarTramite() {
     resumenPorConcepto.set(pago.conceptoId, datosConcepto);
   });
 
-  const formatoImporte = new Intl.NumberFormat("es-ES", {
-    style: "currency",
-    currency: "EUR",
-  });
   resumenPorConcepto.forEach((datosConcepto) => {
     const lineaConcepto = document.createElement("p");
     const importeMedio = datosConcepto.importeTotal / datosConcepto.cantidadPagos;
@@ -212,12 +198,10 @@ function finalizarTramite() {
       datosConcepto.cantidadPagos === 1 ? "1 pago" : `${datosConcepto.cantidadPagos} pagos`;
     lineaConcepto.textContent =
       `${datosConcepto.concepto}: ${textoCantidadPagos}, ` +
-      `importe medio ${formatoImporte.format(importeMedio)}, ` +
-      `importe total ${formatoImporte.format(datosConcepto.importeTotal)}.`;
-    resumen.appendChild(lineaConcepto);
+      `importe medio ${importeMedio.toFixed(2)} €, ` +
+      `importe total ${datosConcepto.importeTotal.toFixed(2)} €.`;
+    resultado.appendChild(lineaConcepto);
   });
-
-  resultado.replaceChildren(resumen);
 }
 
 document
