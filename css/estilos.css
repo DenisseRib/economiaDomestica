@@ -130,3 +130,11 @@ button:active {
     line-height: 1.6;
     color: #334155;
 }
+.lineaPagos{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: #04ff58;
+    padding: 10px;
+}
