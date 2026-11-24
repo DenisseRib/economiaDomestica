@@ -162,8 +162,70 @@ function agregarAlHistorial(pago) {
   listaPagos.appendChild(linea);
 }
 
+function finalizarTramite() {
+  const resultado = document.getElementById("resultadoResumen");
+  if (!tramite) {
+    resultado.textContent = "Inicia un trámite antes de consultar el resumen.";
+    return;
+  }
+
+  const fechaFinalizacion = new Date();
+  const fechaTexto = new Intl.DateTimeFormat("es-ES", {
+    dateStyle: "short",
+    timeStyle: "medium",
+  }).format(fechaFinalizacion);
+  const lineaFecha = document.createElement("p");
+  lineaFecha.className = "fecha-resumen";
+  lineaFecha.textContent = `Trámite finalizado: ${fechaTexto}`;
+
+  const resumen = document.createDocumentFragment();
+  resumen.appendChild(lineaFecha);
+
+  if (pagos.length === 0) {
+    const sinPagos = document.createElement("p");
+    sinPagos.textContent = "No se registraron pagos en este trámite.";
+    resumen.appendChild(sinPagos);
+    resultado.replaceChildren(resumen);
+    return;
+  }
+
+  const resumenPorConcepto = new Map();
+  pagos.forEach((pago) => {
+    const datosConcepto = resumenPorConcepto.get(pago.conceptoId) || {
+      concepto: pago.concepto,
+      cantidadPagos: 0,
+      importeTotal: 0,
+    };
+    datosConcepto.cantidadPagos += 1;
+    datosConcepto.importeTotal += pago.importe;
+    resumenPorConcepto.set(pago.conceptoId, datosConcepto);
+  });
+
+  const formatoImporte = new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+  });
+  resumenPorConcepto.forEach((datosConcepto) => {
+    const lineaConcepto = document.createElement("p");
+    const importeMedio = datosConcepto.importeTotal / datosConcepto.cantidadPagos;
+    const textoCantidadPagos =
+      datosConcepto.cantidadPagos === 1 ? "1 pago" : `${datosConcepto.cantidadPagos} pagos`;
+    lineaConcepto.textContent =
+      `${datosConcepto.concepto}: ${textoCantidadPagos}, ` +
+      `importe medio ${formatoImporte.format(importeMedio)}, ` +
+      `importe total ${formatoImporte.format(datosConcepto.importeTotal)}.`;
+    resumen.appendChild(lineaConcepto);
+  });
+
+  resultado.replaceChildren(resumen);
+}
+
 document
   .getElementById("formTramite")
   .addEventListener("submit", iniciarTramite);
+
+document
+  .getElementById("btnFinalizar")
+  .addEventListener("click", finalizarTramite);
 
 cargarConceptos();
