@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080";   // o 8080 si usas el zip
+const API_URL = "http://localhost:3000";
 let conceptos = [];
 let tramite = null;
 let pagos = [];
@@ -11,82 +11,138 @@ const categorias = {
   OC: "Ocio",
   S_BAS: "Servicios Básicos",
 };
-async function iniciar() {
-  try {
-    const response = await fetch(URL + "/conceptos");
-    if (!response.ok) {
-      throw new Error("Error al cargar los conceptos: " + response.status);
-    }
-    conceptos = await response.json();
-    mostrarConceptos();
-    iniciarTramite();
-  } catch (error) {
-    console.error("Error al iniciar la aplicación:", error);
-    alert("Error al iniciar la aplicación. Por favor, inténtelo de nuevo más tarde.");
-  }
-}
+function iniciarTramite(evento) {
+  evento.preventDefault();
 
-function mostrarConceptos() {
-  const grid = document.getElementById("gridConceptos");
-  grid.innerHTML = "";
-  conceptos.forEach((concepto) => {
-    const card = document.createElement("div");
-    card.className = "tarjeta";
-    card.innerHTML = `
-      <img src="${concepto.imagen}" alt="${concepto.nombre}" onclick="agregarPago(${concepto.id})">
-      <h3>${concepto.nombre}</h3>
-      <input type="number" id="importe${concepto.id}" min="0" step="0.01" placeholder="Importe (€)">
-    `;
-    grid.appendChild(card);
-  });
-}
+  const mesInput = document.getElementById("mesTramite");
+  const anioInput = document.getElementById("anioTramite");
+  const mensajeError = document.getElementById("errorTramite");
+  const mes = Number(mesInput.value);
+  const anio = Number(anioInput.value);
 
-function iniciarTramite() {
-  const mesTexto = prompt("Indica el mes del trámite (1-12):");
-  const mes = Number(mesTexto);
-  const anioTexto = prompt("Indica el año del trámite:");
-  const anio = Number(anioTexto);
-
-  if (!Number.isInteger(mes) || mes < 1 || mes > 12 || !Number.isInteger(anio) || anio < 1) {
-    alert("Debe indicar un mes y un año válidos.");
-    iniciarTramite();
+  if (!Number.isInteger(mes) || mes < 1 || mes > 12) {
+    mensajeError.textContent = "Indica un mes válido entre 1 y 12.";
+    mesInput.focus();
     return;
   }
 
-  tramite = { mes, anio, pagos: [] };
-  pagos = [];
-  finalizado = false;
-
-  let mesFormateado = mes;
-  if (mes < 10) {
-    mesFormateado = "0" + mes;
+  if (!Number.isInteger(anio) || anio < 1 || anio > 9999) {
+    mensajeError.textContent = "Indica un año válido.";
+    anioInput.focus();
+    return;
   }
+
+  pagos = [];
+  tramite = { mes, anio, pagos };
+  mensajeError.textContent = "";
+
+  const mesFormateado = String(mes).padStart(2, "0");
 
   document.getElementById("datoTramite").textContent =
     "Trámite: " + mesFormateado + "/" + anio;
 }
 
-async function cargarConceptos() {
-  try {
-    const respuesta = await fetch("http://localhost:3000/conceptos");
-    if (!respuesta.ok) throw new Error("json-server no disponible");
-    conceptos = await respuesta.json();
-  } catch (error) {
-    const respuesta = await fetch("./data/ecoDomestica.json");
-    conceptos = (await respuesta.json()).conceptos;
+async function obtenerDatos(url) {
+  const respuesta = await fetch(url);
+  if (!respuesta.ok) {
+    throw new Error(`Error al cargar ${url}: ${respuesta.status}`);
   }
+  return respuesta.json();
+}
+
+async function cargarConceptos() {
+  let conceptosCargados;
+
+  try {
+    conceptosCargados = await obtenerDatos(`${API_URL}/conceptos`);
+    if (!Array.isArray(conceptosCargados)) {
+      throw new Error("La API no devolvió una lista de conceptos.");
+    }
+  } catch (errorApi) {
+    try {
+      const datosLocales = await obtenerDatos("./data/ecoDomestica.json");
+      conceptosCargados = datosLocales.conceptos;
+      if (!Array.isArray(conceptosCargados)) {
+        throw new Error("El archivo local no contiene una lista de conceptos.");
+      }
+    } catch (errorLocal) {
+      console.error("No se pudieron cargar los conceptos.", {
+        errorApi,
+        errorLocal,
+      });
+      alert("No se pudieron cargar los conceptos. Comprueba el servidor y vuelve a intentarlo.");
+      return;
+    }
+  }
+
+  conceptos = conceptosCargados;
   mostrarConceptos();
 }
 
 function mostrarConceptos() {
   const grid = document.getElementById("gridConceptos");
-  grid.innerHTML = conceptos.map((concepto) => `
-    <article class="tarjeta">
-      <img src="${concepto.img}" alt="${concepto.nombre}" data-id="${concepto.id}" title="Registrar pago de ${concepto.nombre}">
-      <h3>${concepto.nombre}</h3>
-      <input class="importe-pago" type="number" min="0.01" step="0.01" placeholder="Importe €" aria-label="Importe de ${concepto.nombre}">
-    </article>`).join("");
-  grid.querySelectorAll("img").forEach((imagen) => imagen.addEventListener("click", () => registrarPago(imagen.dataset.id, imagen)));
+  const tarjetas = document.createDocumentFragment();
+
+  conceptos.forEach((concepto) => {
+    const tarjeta = document.createElement("article");
+    tarjeta.className = "tarjeta";
+
+    const imagen = document.createElement("img");
+    imagen.src = new URL(concepto.img, document.baseURI).href;
+    imagen.alt = concepto.nombre;
+    imagen.dataset.id = concepto.id;
+    imagen.title = `Registrar pago de ${concepto.nombre}`;
+    imagen.addEventListener("click", () => {
+      registrarPago(concepto.id, imagen);
+    });
+
+    const nombre = document.createElement("h3");
+    nombre.textContent = concepto.nombre;
+
+    const importe = document.createElement("input");
+    importe.className = "importe-pago";
+    importe.type = "number";
+    importe.min = "0.01";
+    importe.step = "0.01";
+    importe.placeholder = "Importe €";
+    importe.setAttribute("aria-label", `Importe de ${concepto.nombre}`);
+
+    tarjeta.append(imagen, nombre, importe);
+    tarjetas.appendChild(tarjeta);
+  });
+
+  grid.replaceChildren(tarjetas);
 }
+
+function registrarPago(conceptoId, imagen) {
+  const concepto = conceptos.find((item) => String(item.id) === String(conceptoId));
+  const importeInput = imagen.closest(".tarjeta").querySelector(".importe-pago");
+  const mensaje = document.getElementById("mensajePago");
+
+  if (!tramite) {
+    mensaje.textContent = "Primero debes iniciar un trámite indicando el mes y el año.";
+    return;
+  }
+
+  const importe = Number(importeInput.value);
+  if (!Number.isFinite(importe) || importe <= 0) {
+    mensaje.textContent = "No se puede registrar un pago: indica un importe mayor que 0.";
+    importeInput.focus();
+    return;
+  }
+
+  const pago = {
+    conceptoId: concepto.id,
+    concepto: concepto.nombre,
+    importe,
+  };
+  pagos.push(pago);
+  importeInput.value = "";
+  mensaje.textContent = `Pago de ${concepto.nombre} registrado: ${importe.toFixed(2)} €.`;
+}
+
+document
+  .getElementById("formTramite")
+  .addEventListener("submit", iniciarTramite);
 
 cargarConceptos();

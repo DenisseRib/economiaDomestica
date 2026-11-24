@@ -12,12 +12,21 @@
         <header>
             <h1>Registro de Gastos de Vivienda</h1>
 
-<p id="datoTramite">Introduzca el mes y el año del trámite.</p>
+            <p id="datoTramite">Introduce el mes y el año para iniciar el trámite.</p>
+            <form id="formTramite" class="campos-tramite" novalidate>
+                <label for="mesTramite">Mes:</label>
+                <input id="mesTramite" name="mes" type="number" min="1" max="12" step="1" required>
+                <label for="anioTramite">Año:</label>
+                <input id="anioTramite" name="anio" type="number" min="1" max="9999" step="1" required>
+                <button type="submit">Iniciar trámite</button>
+                <p id="errorTramite" class="mensaje-error" aria-live="polite"></p>
+            </form>
             <p>Indica el importe y pulsa sobre la imagen para registrar el pago.</p>
             
         </header>
 
         <section id="gridConceptos" class="grid-conceptos" aria-label="Conceptos de gasto"></section>
+        <p id="mensajePago" role="status" aria-live="polite"></p>
 
         <section class="seccion-resumen">
             <button id="btnFinalizar" type="button">Finalizar trámite y ver resumen</button>
