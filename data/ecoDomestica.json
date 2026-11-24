@@ -3,70 +3,71 @@
         {
             "id": "1",
             "nombre": "Luz",
-            "img": "./img/luz.webp",
+            "img": "img/luz.webp",
             "imprescindible": true,
             "categoria": "S_BAS"
         },
         {
             "id": "2",
             "nombre": "Agua",
-            "img": "./img/agua.webp",
+            "img": "img/agua.webp",
             "imprescindible": true,
             "categoria": "S_BAS"
         },
         {
             "id": "3",
             "nombre": "Gas",
-            "img": "./img/gas.webp",
+            "img": "img/gas.webp",
             "imprescindible": true,
             "categoria": "S_BAS"
         },
         {
             "id": "4",
             "nombre": "Internet",
-            "img": "./img/internet.jpg",
+            "img": "img/internet.jpg",
             "imprescindible": true,
             "categoria": "S_BAS"
         },
         {
             "id": "5",
             "nombre": "Alquiler",
-            "img": "./img/alquiler.jpg",
+            "img": "img/alquiler.jpg",
             "imprescindible": true,
             "categoria": "S_BAS"
         },
         {
             "id": "6",
             "nombre": "Supermercado",
-            "img": "./img/supermercado.webp",
+            "img": "img/supermercado.webp",
             "imprescindible": true,
             "categoria": "ALI"
         },
         {
             "id": "7",
             "nombre": "Comunidad",
-            "img": "./img/comunidad.webp",
+            "img": "img/comunidad.webp",
             "imprescindible": true,
             "categoria": "S_BAS"
         },
         {
             "id": "8",
             "nombre": "Seguro Hogar",
-            "img": "./img/seguro.webp",
+            "img": "img/seguro.webp",
             "imprescindible": true,
             "categoria": "S_BAS"
         },
         {
             "id": "9",
             "nombre": "Ocio",
-            "img": "./img/ocio.webp",
+            "img": "img/ocio.webp",
             "imprescindible": false,
             "categoria": "OC"
         },
         {
             "id": "10",
             "nombre": "Tasa Basura",
-            "img": "./img/basura.webp",
+            "img": "img/basura.webp",
+
             "imprescindible": true,
             "categoria": "S_BAS"
         }

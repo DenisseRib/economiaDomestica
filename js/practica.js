@@ -1,3 +1,4 @@
+const URL = "http://localhost:8080";   // o 8080 si usas el zip
 let conceptos = [];
 let tramite = null;
 let pagos = [];
@@ -10,6 +11,35 @@ const categorias = {
   OC: "Ocio",
   S_BAS: "Servicios Básicos",
 };
+async function iniciar() {
+  try {
+    const response = await fetch(URL + "/conceptos");
+    if (!response.ok) {
+      throw new Error("Error al cargar los conceptos: " + response.status);
+    }
+    conceptos = await response.json();
+    mostrarConceptos();
+    iniciarTramite();
+  } catch (error) {
+    console.error("Error al iniciar la aplicación:", error);
+    alert("Error al iniciar la aplicación. Por favor, inténtelo de nuevo más tarde.");
+  }
+}
+
+function mostrarConceptos() {
+  const grid = document.getElementById("gridConceptos");
+  grid.innerHTML = "";
+  conceptos.forEach((concepto) => {
+    const card = document.createElement("div");
+    card.className = "tarjeta";
+    card.innerHTML = `
+      <img src="${concepto.imagen}" alt="${concepto.nombre}" onclick="agregarPago(${concepto.id})">
+      <h3>${concepto.nombre}</h3>
+      <input type="number" id="importe${concepto.id}" min="0" step="0.01" placeholder="Importe (€)">
+    `;
+    grid.appendChild(card);
+  });
+}
 
 function iniciarTramite() {
   const mesTexto = prompt("Indica el mes del trámite (1-12):");
@@ -17,13 +47,7 @@ function iniciarTramite() {
   const anioTexto = prompt("Indica el año del trámite:");
   const anio = Number(anioTexto);
 
-  if (
-    !Number.isInteger(mes) ||
-    mes < 1 ||
-    mes > 12 ||
-    !Number.isInteger(anio) ||
-    anio < 1
-  ) {
+  if (!Number.isInteger(mes) || mes < 1 || mes > 12 || !Number.isInteger(anio) || anio < 1) {
     alert("Debe indicar un mes y un año válidos.");
     iniciarTramite();
     return;
@@ -31,12 +55,15 @@ function iniciarTramite() {
 
   tramite = { mes, anio, pagos: [] };
   pagos = [];
+  finalizado = false;
 
   let mesFormateado = mes;
   if (mes < 10) {
     mesFormateado = "0" + mes;
   }
 
-  document.getElementById("datoTramite").textContent =
-    "Trámite: " + mesFormateado + "/" + anio;
+  document.getElementById("datoTramite").textContent = "Trámite: " + mesFormateado + "/" + anio;
+  document.getElementById("btnFinalizar").disabled = false;
 }
+
+window.onload = iniciar;
