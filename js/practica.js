@@ -137,8 +137,32 @@ function registrarPago(conceptoId, imagen) {
     importe,
   };
   pagos.push(pago);
+  agregarAlHistorial(pago);
   importeInput.value = "";
   mensaje.textContent = `Pago de ${concepto.nombre} registrado: ${importe.toFixed(2)} €.`;
+}
+
+function agregarAlHistorial(pago) {
+  const listaPagos = document.getElementById("listaPagos");
+  const linea = document.createElement("p");
+  linea.className = "linea-pago";
+  linea.dataset.conceptoId = pago.conceptoId;
+  linea.textContent = `${pago.concepto} ${pago.importe.toFixed(2)} €`;
+
+  const lineasAnteriores = listaPagos.querySelectorAll(".linea-pago");
+  lineasAnteriores.forEach((lineaAnterior) => {
+    lineaAnterior.classList.toggle(
+      "linea-pago--resaltada",
+      String(lineaAnterior.dataset.conceptoId) === String(pago.conceptoId),
+    );
+  });
+  linea.classList.add("linea-pago--resaltada");
+
+  const mensajeInicial = listaPagos.querySelector(".mensaje-historial-vacio");
+  if (mensajeInicial) {
+    mensajeInicial.remove();
+  }
+  listaPagos.appendChild(linea);
 }
 
 document

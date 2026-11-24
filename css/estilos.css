@@ -1,7 +1,22 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 30px;
+    display: grid;
+    grid-template-columns: 75% 25%;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
     background-color: #f8fafc;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.contenido-principal {
+    min-width: 0;
+    max-height: 100vh;
+    padding: 24px;
+    overflow-y: auto;
 }
 
 h1, h2 {
@@ -137,4 +152,49 @@ button:active {
     flex-wrap: wrap;
     background-color: #04ff58;
     padding: 10px;
+}
+
+.panel-historial {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100vh;
+    padding: 24px 16px;
+    overflow: hidden;
+    background-color: #e2e8f0;
+    border-left: 2px solid #94a3b8;
+}
+
+.panel-historial h2 {
+    margin-top: 0;
+}
+
+.lista-pagos {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.linea-pago {
+    margin: 0 0 8px;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #ffffff;
+}
+
+.linea-pago--resaltada {
+    background-color: #bbf7d0;
+}
+
+@media (max-width: 700px) {
+    body {
+        grid-template-columns: 65% 35%;
+    }
+
+    .contenido-principal {
+        padding: 16px;
+    }
+
+    .panel-historial {
+        padding: 16px 10px;
+    }
 }
