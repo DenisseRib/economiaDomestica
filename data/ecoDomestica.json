@@ -1,76 +1,138 @@
 {
-    "conceptos": [
+  "conceptos": [
+    {
+      "id": "1",
+      "nombre": "Luz",
+      "img": "img/luz.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    },
+    {
+      "id": "2",
+      "nombre": "Agua",
+      "img": "img/agua.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    },
+    {
+      "id": "3",
+      "nombre": "Gas",
+      "img": "img/gas.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    },
+    {
+      "id": "4",
+      "nombre": "Internet",
+      "img": "img/internet.jpg",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    },
+    {
+      "id": "5",
+      "nombre": "Alquiler",
+      "img": "img/alquiler.jpg",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    },
+    {
+      "id": "6",
+      "nombre": "Supermercado",
+      "img": "img/supermercado.webp",
+      "imprescindible": true,
+      "categoria": "ALI"
+    },
+    {
+      "id": "7",
+      "nombre": "Comunidad",
+      "img": "img/comunidad.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    },
+    {
+      "id": "8",
+      "nombre": "Seguro Hogar",
+      "img": "img/seguro.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    },
+    {
+      "id": "9",
+      "nombre": "Ocio",
+      "img": "img/ocio.webp",
+      "imprescindible": false,
+      "categoria": "OC"
+    },
+    {
+      "id": "10",
+      "nombre": "Tasa Basura",
+      "img": "img/basura.webp",
+      "imprescindible": true,
+      "categoria": "S_BAS"
+    }
+  ],
+  "registros": [
+    {
+      "mes": 12,
+      "anio": 2013,
+      "fechaFinalizacion": "2026-11-24T13:46:10.576Z",
+      "pagos": [
         {
-            "id": "1",
-            "nombre": "Luz",
-            "img": "img/luz.webp",
-            "imprescindible": true,
-            "categoria": "S_BAS"
+          "conceptoId": "1",
+          "concepto": "Luz",
+          "importe": 23
         },
         {
-            "id": "2",
-            "nombre": "Agua",
-            "img": "img/agua.webp",
-            "imprescindible": true,
-            "categoria": "S_BAS"
-        },
-        {
-            "id": "3",
-            "nombre": "Gas",
-            "img": "img/gas.webp",
-            "imprescindible": true,
-            "categoria": "S_BAS"
-        },
-        {
-            "id": "4",
-            "nombre": "Internet",
-            "img": "img/internet.jpg",
-            "imprescindible": true,
-            "categoria": "S_BAS"
-        },
-        {
-            "id": "5",
-            "nombre": "Alquiler",
-            "img": "img/alquiler.jpg",
-            "imprescindible": true,
-            "categoria": "S_BAS"
-        },
-        {
-            "id": "6",
-            "nombre": "Supermercado",
-            "img": "img/supermercado.webp",
-            "imprescindible": true,
-            "categoria": "ALI"
-        },
-        {
-            "id": "7",
-            "nombre": "Comunidad",
-            "img": "img/comunidad.webp",
-            "imprescindible": true,
-            "categoria": "S_BAS"
-        },
-        {
-            "id": "8",
-            "nombre": "Seguro Hogar",
-            "img": "img/seguro.webp",
-            "imprescindible": true,
-            "categoria": "S_BAS"
-        },
-        {
-            "id": "9",
-            "nombre": "Ocio",
-            "img": "img/ocio.webp",
-            "imprescindible": false,
-            "categoria": "OC"
-        },
-        {
-            "id": "10",
-            "nombre": "Tasa Basura",
-            "img": "img/basura.webp",
-
-            "imprescindible": true,
-            "categoria": "S_BAS"
+          "conceptoId": "2",
+          "concepto": "Agua",
+          "importe": 32
         }
-    ],
-    "registros": []
+      ],
+      "id": "Ii-yEjJjFm8"
+    },
+    {
+      "mes": 2,
+      "anio": 2023,
+      "fechaFinalizacion": "2026-11-24T13:47:03.015Z",
+      "pagos": [
+        {
+          "conceptoId": "1",
+          "concepto": "Luz",
+          "importe": 23
+        },
+        {
+          "conceptoId": "9",
+          "concepto": "Ocio",
+          "importe": 23
+        },
+        {
+          "conceptoId": "10",
+          "concepto": "Tasa Basura",
+          "importe": 45
+        },
+        {
+          "conceptoId": "3",
+          "concepto": "Gas",
+          "importe": 6
+        },
+        {
+          "conceptoId": "9",
+          "concepto": "Ocio",
+          "importe": 34
+        },
+        {
+          "conceptoId": "1",
+          "concepto": "Luz",
+          "importe": 45
+        },
+        {
+          "conceptoId": "8",
+          "concepto": "Seguro Hogar",
+          "importe": 34
+        }
+      ],
+      "id": "y_bNvAN3RoQ"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

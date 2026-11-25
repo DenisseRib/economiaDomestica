@@ -1,4 +1,6 @@
 const API_URL = "http://localhost:3000";
+const RAIZ_PROYECTO = new URL("../", document.currentScript.src);
+const DATOS_LOCALES_URL = new URL("data/ecoDomestica.json", RAIZ_PROYECTO);
 let conceptos = [];
 let tramite = null;
 let pagos = [];
@@ -68,7 +70,7 @@ async function cargarConceptos() {
     }
   } catch (errorApi) {
     try {
-      const datosLocales = await obtenerDatos("./data/ecoDomestica.json");
+      const datosLocales = await obtenerDatos(DATOS_LOCALES_URL);
       conceptosCargados = datosLocales.conceptos;
       if (!Array.isArray(conceptosCargados)) {
         throw new Error("El archivo local no contiene una lista de conceptos.");
@@ -96,7 +98,7 @@ function mostrarConceptos() {
     tarjeta.className = "tarjeta";
 
     const imagen = document.createElement("img");
-    imagen.src = new URL(concepto.img, document.baseURI).href;
+    imagen.src = new URL(concepto.img, RAIZ_PROYECTO).href;
     imagen.alt = concepto.nombre;
     imagen.dataset.id = concepto.id;
     imagen.title = `Registrar pago de ${concepto.nombre}`;
